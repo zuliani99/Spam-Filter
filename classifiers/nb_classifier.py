@@ -2,32 +2,50 @@ import numpy as np
 from sklearn.base import BaseEstimator
 
 class NaiveBayes(BaseEstimator):
-    def score(self, X, Y):
-        px_spam_i = ((2 * np.pi * self.o2_spam) ** (-1. / 2)) * np.exp(-1. / (2 * self.o2_spam) * np.power(X - self.mu_spam, 2))
-        px_ham_i = ((2 * np.pi * self.o2_ham) ** (-1. / 2)) * np.exp(-1. / (2 * self.o2_ham) * np.power(X - self.mu_ham, 2))
-        
-        px_spam = np.prod(px_spam_i, axis = 1)
-        px_ham = np.prod(px_ham_i, axis = 1)
-        
-        p_spam = px_spam * self.prob_spam
-        p_ham = px_ham * self.prob_ham
-                           
-        y_pred = np.argmax([p_ham, p_spam], axis = 0)
-        return np.mean(y_pred == Y)
+    def fit(self, X, y):
+        n_samples, n_features = X.shape # Gte the dataset shape
+        self.__classes = np.unique(y) # Get the unique classes
+        n_classes = len(self.__classes)
 
-    def fit(self, X, Y):
-        self.spam = X[Y == 1, :54]
-        self.ham = X[Y == 0, :54]
-        
-        self.n_spam = self.spam.shape[0] 
-        self.n_ham = self.ham.shape[0] 
-        self.N = float(self.n_spam + self.n_ham)
+        # Initialize useful np.array
+        self.__mean = np.zeros((n_classes, n_features), dtype=np.float64)
+        self.__var = np.zeros((n_classes, n_features), dtype=np.float64)
+        self.__priors = np.zeros(n_classes, dtype=np.float64)
 
-        self.prob_spam = self.n_spam / self.N
-        self.prob_ham = self.n_ham / self.N
-        
-        self.mu_spam = np.mean(self.spam, axis = 0)
-        self.mu_ham = np.mean(self.ham, axis = 0)
-        
-        self.o2_spam = np.var(self.spam, axis = 0) + 1e-128
-        self.o2_ham = np.var(self.ham, axis = 0) + 1e-128
+        # Fill the np.array
+        for c in self.__classes:
+            X_c = X[y == c]
+            self.__mean[int(c), :] = X_c.mean(axis=0)
+            self.__var[int(c), :] = X_c.var(axis=0) + 1e-128
+            self.__priors[int(c)] = float(X_c.shape[0] / n_samples)
+
+
+    def predic(self, X):
+        return np.array([self.__predict(x) for x in X])
+
+
+    def __predict(self, x):
+        post_probs = []
+
+        # Calculate posterior probability for each class
+        for c in self.__classes:
+            prior_prob = np.log(self.__priors[int(c)])
+            post_prob = np.sum(np.log(self.__gaussianDistribution(int(c), x) + 1e-128))
+            post_probs.append((prior_prob + post_prob))
+
+        # Return class with highest posterior probability
+        return self.__classes[np.argmax(post_probs)]
+
+    # Gaussian Distribution Function
+    def __gaussianDistribution(self, class_idx, x):
+        num = np.exp(-((x - self.__mean[class_idx]) ** 2) / (2 * self.__var[class_idx]))
+        den = np.sqrt(2 * np.pi * self.__var[class_idx])
+        return num / den
+
+
+    def score(self, x_test, y_test):
+        y_pred = self.predic(x_test)
+        return np.sum(y_test == y_pred) / len(y_test)
+    
+    def accuracy_score(self, y_pred, y_test):
+        return np.sum(y_test == y_pred) / len(y_test)

@@ -1,32 +1,46 @@
-import pandas as pd
 import numpy as np
 from classifiers.knn_classifier import KNearesNeighbour
+from classifiers.nb_classifier import NaiveBayes
+from utlis import load_csv
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
-from sklearn.utils import shuffle
 
-def readData():
-    data = pd.read_csv("spambase.data", "," ,index_col = False)
-    data = shuffle(data)
-    return data.iloc[:, :54], data.iloc[:,57]
 
-def callKnn(X_train, X_test, Y_train, Y_test, X, Y):
+def callNb(X, y):
+    scores = cross_val_score(NaiveBayes(), X, y, cv = 10)
+    print("NAIVE BAYES")
+    print(f"Cross Val - Min Accuracy: \t{str(round(scores.min(), 5))}")
+    print(f"Cross Val - Mean Accuracy: \t{str(round(scores.mean(), 5))}")
+    print(f"Cross Val - Max Accuracy: \t{str(round(scores.max(), 5))}" + "\n")
+
+
+def callKnn(X_train, y_train, X_test, y_test, X, y):
+    print("K NEAREST NEIGHBOORS")
+    
     knn = KNearesNeighbour()
-    knn.fit(X_train, Y_train)
+    knn.fit(X_train, y_train)
 
-    Y_pred = knn.predict(X_test)
-    print(f"Accuracy Score: {str(knn.accuracy_score(Y_pred, Y_test))}")
+    y_pred = knn.predict(X_test)
+    print(f"Train Test Split - Accuracy Score: \t{str(knn.accuracy_score(y_pred, y_test))}")
 
-    scores = cross_val_score(knn, X, Y, cv = 10)
-    print(f"10 Way Cross Validation Score: {str(np.mean(scores))}")
+    scores = cross_val_score(knn, X, y, cv = 10)
+    print(f"Cross Val - Min Accuracy: \t{str(round(scores.min(), 5))}")
+    print(f"Cross Val - Mean Accuracy: \t{str(round(scores.mean(), 5))}")
+    print(f"Cross Val - Max Accuracy: \t{str(round(scores.max(), 5))}")
 
 
-if __name__ == "__main__":
-    X, Y = readData()
-    X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size = 0.3, random_state = 123)
+def start():
+    X, y = load_csv()
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3)
 
     #SVM
+    
     #NAIVE BAYES
+    callNb(X, y)
         
     #KNN
-    callKnn(X_train, X_test, Y_train, Y_test, X, Y)
+    callKnn(X_train, y_train, X_test, y_test, X, y)
+    
+    
+if __name__ == "__main__":
+   start()
