@@ -61,4 +61,4 @@ def write_result(file, kernel, results):
     file.write(f"---- {kernel} kernel " + " ---- \n")
     file.write(f"Mean Accuracy: {str(results[0])}" + "\n")
     file.write(f"Variance Accuracy: {str(results[1])}" + "\n")
-    file.write(f"Standard Variation Accuracy: {str(results[2])}" + "\n")
+    file.write(f"Standard Deviation Accuracy: {str(results[2])}" + "\n")

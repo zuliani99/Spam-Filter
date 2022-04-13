@@ -1,4 +1,3 @@
-import numpy as np
 from classifiers.svm_classifier import Svm 
 from classifiers.knn_classifier import KNearesNeighbour
 from classifiers.nb_classifier import NaiveBayes
