@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
+from sklearn.model_selection import cross_val_score
 
 RESULT = "files/result.txt"
 CV = 10
@@ -21,13 +21,9 @@ class Svm:
 
     # evaluate kernel and return mean accuracy, variance and standard variation
     def evaluation_kernel(self, kernel):
-        if kernel == "poly":
-            classifier = SVC(kernel=kernel, degree=2, C=1.0)
-            svm_list.append(classifier)
-        else:
-            classifier = SVC(kernel=kernel, C=1.0)
-            svm_list.append(classifier)
-
+        if kernel == "poly": classifier = SVC(kernel=kernel, degree=2, C=1.0)
+        else: classifier = SVC(kernel=kernel, C=1.0)
+        svm_list.append(classifier)
         ten_way_CV_score = cross_val_score(classifier, self.X, self.Y, cv=CV, n_jobs=-1)
         mean = ten_way_CV_score.mean()
         var = ten_way_CV_score.var()
@@ -35,8 +31,8 @@ class Svm:
 
         return [str(mean), str(var), str(std)]
 
-    def classifier_score(classifier, x_train, y_train):
-        fit = classifier.fit(x_train, y_train)
+    def classifier_score(self, x_train, y_train):
+        fit = self.fit(x_train, y_train)
         return fit.score(x_train, y_train)
 
     def result(self):
@@ -62,7 +58,7 @@ class Svm:
 
 def write_result(file, kernel, results):
     file.write("\n")
-    file.write("---- " + kernel + " kernel "+" ---- \n")
-    file.write("Mean Accuracy: " + str(results[0])+"\n")
-    file.write("Variance Accuracy: " + str(results[1])+"\n")
-    file.write("Standard Variation Accuracy: " +str(results[2])+"\n")
+    file.write(f"---- {kernel} kernel " + " ---- \n")
+    file.write(f"Mean Accuracy: {str(results[0])}" + "\n")
+    file.write(f"Variance Accuracy: {str(results[1])}" + "\n")
+    file.write(f"Standard Variation Accuracy: {str(results[2])}" + "\n")
