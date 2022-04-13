@@ -3,7 +3,7 @@ from sklearn.base import BaseEstimator
 
 class NaiveBayes(BaseEstimator):
     def fit(self, X, y):
-        n_samples, n_features = X.shape # Gte the dataset shape
+        n_samples, n_features = X.shape # Get the dataset shape
         self.__classes = np.unique(y) # Get the unique classes
         n_classes = len(self.__classes)
 
