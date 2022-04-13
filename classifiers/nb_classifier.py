@@ -3,7 +3,7 @@ from sklearn.base import BaseEstimator
 
 class NaiveBayes(BaseEstimator):
     def fit(self, X, y):
-        n_samples, n_features = X.shape # Gte the dataset shape
+        n_samples, n_features = X.shape # Get the dataset shape
         self.__classes = np.unique(y) # Get the unique classes
         n_classes = len(self.__classes)
 
@@ -43,9 +43,10 @@ class NaiveBayes(BaseEstimator):
         return num / den
 
 
-    def score(self, x_test, y_test):
-        y_pred = self.predic(x_test)
-        return np.sum(y_test == y_pred) / len(y_test)
-    
     def accuracy_score(self, y_pred, y_test):
         return np.sum(y_test == y_pred) / len(y_test)
+
+
+    def score(self, x_test, y_test):
+        y_pred = self.predic(x_test)
+        return self.accuracy_score(y_test, y_pred)

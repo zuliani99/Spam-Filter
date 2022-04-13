@@ -6,7 +6,6 @@ from sklearn.base import BaseEstimator
 
 class KNearesNeighbour(BaseEstimator):
     def __init__(self):
-        #print("KNN Classifier Started")
         self.K = 5
         
         
@@ -21,7 +20,7 @@ class KNearesNeighbour(BaseEstimator):
     
     def predict(self, X_test):
         y_pred = []
-        #print("Predicting Values...")
+
         for test_p in X_test:
             dist = [self.__euclideanDistance(test_p, train_p) for train_p in self.__X_train]
             dist = pd.Series(dist)
