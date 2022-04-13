@@ -49,7 +49,7 @@ class Svm:
         var = ten_way_CV_score.var()
         std = ten_way_CV_score.std()
 
-        return [str(min), str(max), str(mean), str(var), str(std)]
+        return [round(min,5), round(max,5), round(mean,5), round(var,5), round(std,5)]
 
 
     def score(self, classifier, flag):
@@ -61,8 +61,8 @@ class Svm:
 
 
     def result(self):
-        print("SVM CLASSIFIER \n")
         print("\n")
+        print("SVM CLASSIFIER \n")
 
         # kernels without angular kernel evaluation
         print("Measures of kernels without angular kernel evaluation: \n")
@@ -88,10 +88,10 @@ class Svm:
 def write_result(kernel, results, score):
     print("\n")
     print(f"---- {kernel} kernel " + " ---- \n")
-    print(f"Cross Val - Min Accuracy: \t\t{str(round(results[0]))}" + "\n")
-    print(f"Cross Val - Max Accuracy: \t\t{str(round(results[1]))}" + "\n")
-    print(f"Cross Val - Mean Accuracy: \t\t{str(round(results[2]))}" + "\n")
-    print(f"Cross Val - Variance: \t\t\t{str(round(results[3]))}" + "\n")
-    print(f"Cross Val - Standard Deviation: \t{str(round(results[4]))}" + "\n")
+    print(f"Cross Val - Min Accuracy: \t\t{str(results[0])}" + "\n")
+    print(f"Cross Val - Max Accuracy: \t\t{str(results[1])}" + "\n")
+    print(f"Cross Val - Mean Accuracy: \t\t{str(results[2])}" + "\n")
+    print(f"Cross Val - Variance: \t\t\t{str(results[3])}" + "\n")
+    print(f"Cross Val - Standard Deviation: \t{str(results[4])}" + "\n")
     print("\n")
-    print(f"Cross Val - Score Accuracy: \t\t{str(round(score))}" + "\n")
+    print(f"Cross Val - Score Accuracy: \t\t{round(score,5)}" + "\n")

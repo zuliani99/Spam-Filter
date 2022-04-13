@@ -27,11 +27,13 @@ def start():
     #SVM
     svm = Svm(X,y,X_train,X_test,y_train,y_test)
     svm.result()
-    print("/n")
+    print("-------------------------------------------------------------------") 
+    print("\n")
 
     # NAIVE BAYES
-    callNb(X, y) 
-    print("/n")
+    callNb(X, y)
+    print("-------------------------------------------------------------------") 
+    print("\n")
 
     # KNN
     callKnn(X, y)
