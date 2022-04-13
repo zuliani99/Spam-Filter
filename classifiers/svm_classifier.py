@@ -43,11 +43,13 @@ class Svm:
         if flag: ten_way_CV_score = cross_val_score(classifier, self.normalization(self.X), self.Y, cv=CV, n_jobs=-1)
         else: ten_way_CV_score = cross_val_score(classifier, self.X, self.Y, cv=CV, n_jobs=-1)
         
+        min = ten_way_CV_score.min()
+        max = ten_way_CV_score.max()
         mean = ten_way_CV_score.mean()
         var = ten_way_CV_score.var()
         std = ten_way_CV_score.std()
 
-        return [str(mean), str(var), str(std)]
+        return [str(min), str(max), str(mean), str(var), str(std)]
 
 
     def score(self, classifier, flag):
@@ -86,8 +88,10 @@ class Svm:
 def write_result(kernel, results, score):
     print("\n")
     print(f"---- {kernel} kernel " + " ---- \n")
-    print(f"Mean Accuracy: {str(results[0])}" + "\n")
-    print(f"Variance Accuracy: {str(results[1])}" + "\n")
-    print(f"Standard Deviation Accuracy: {str(results[2])}" + "\n")
+    print(f"Cross Val - Min Accuracy: \t\t{str(round(results[0]))}" + "\n")
+    print(f"Cross Val - Max Accuracy: \t\t{str(round(results[1]))}" + "\n")
+    print(f"Cross Val - Mean Accuracy: \t\t{str(round(results[2]))}" + "\n")
+    print(f"Cross Val - Variance: \t\t\t{str(round(results[3]))}" + "\n")
+    print(f"Cross Val - Standard Deviation: \t{str(round(results[4]))}" + "\n")
     print("\n")
-    print(f"Score Accuracy: {str(score)}" + "\n")
+    print(f"Cross Val - Score Accuracy: \t\t{str(round(score))}" + "\n")
