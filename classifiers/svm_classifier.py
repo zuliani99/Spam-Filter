@@ -2,7 +2,6 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn.model_selection import cross_val_score
 
-RESULT = "files/result.txt"
 CV = 10
 KERNELS = ["linear", "poly", "rbf"]
 svm_list = []
@@ -60,39 +59,35 @@ class Svm:
 
 
     def result(self):
-        file = open(RESULT, "w")
-        file.write("SVM CLASSIFIER \n")
-        file.write("\n")
+        print("SVM CLASSIFIER \n")
+        print("\n")
 
         # kernels without angular kernel evaluation
-        file.write("Measures of kernels without angular kernel evaluation: \n")
+        print("Measures of kernels without angular kernel evaluation: \n")
         for k in KERNELS:
             classifier=self.create_classifier(k)
             results = self.evaluation_kernel(classifier,0)      # flag=0 -> without data normalization
             score = self.score(classifier,0)                    # flag=0 -> without data normalization
-            write_result(file, k, results, score)
+            write_result(k, results, score)
             
-        file.write("\n")
+        print("\n")
 
         # kernels with angular kernel evaluation
-        file.write("Measures of kernels with angular kernel evaluation: \n")
+        print("Measures of kernels with angular kernel evaluation: \n")
         for k in KERNELS:
             classifier=self.create_classifier(k)
             results = self.evaluation_kernel(classifier,1)      # flag=1 -> with data normalization
             score = self.score(classifier,1)                    # flag=1 -> with data normalization
-            write_result(file, k, results, score)
+            write_result(k, results, score)
 
 
 
 
-def write_result(file, kernel, results, score):
-    file.write("\n")
-    file.write(f"---- {kernel} kernel " + " ---- \n")
-    file.write(f"Mean Accuracy: {str(results[0])}" + "\n")
-    file.write(f"Variance Accuracy: {str(results[1])}" + "\n")
-    file.write(f"Standard Variation Accuracy: {str(results[2])}" + "\n")
-    file.write("\n")
-    file.write(f"Score Accuracy: {str(score)}" + "\n")
-
-
-
+def write_result(kernel, results, score):
+    print("\n")
+    print(f"---- {kernel} kernel " + " ---- \n")
+    print(f"Mean Accuracy: {str(results[0])}" + "\n")
+    print(f"Variance Accuracy: {str(results[1])}" + "\n")
+    print(f"Standard Deviation Accuracy: {str(results[2])}" + "\n")
+    print("\n")
+    print(f"Score Accuracy: {str(score)}" + "\n")
