@@ -30,20 +30,24 @@ class NaiveBayes(BaseEstimator):
 
         # Fill the np.array
         for c in self.__classes:
-            X_c = X[y == c]
-            self.__mean[int(c), :] = X_c.mean(axis=0)
-            self.__var[int(c), :] = X_c.var(axis=0) + 1e-128
+            X_c = X[y == c] # Get all email with labeled with c 
+            
+            # Fill the row int(c) of mean vector with the mean of all the feature
+            self.__mean[int(c), :] = X_c.mean(axis = 0) 
+            # Fill the row int(c) of variance vector with the varaince of all the feature
+            self.__var[int(c), :] = X_c.var(axis = 0) + 1e-128 
+            # Fill the row int(c) of priors probability vector with its prior prabability
             self.__priors[int(c)] = float(X_c.shape[0] / n_samples)
 
 
-    def predic(self, X):
-        return np.array([self.__predict(x) for x in X])
+    def predic(self, X_test):
+        return np.array([self.__predict(test_email) for test_email in X_test])
 
 
     def __predict(self, x):
         post_probs = []
 
-        # Calculate posterior probability for each class
+        # Calculate posterior probability for each class 
         for c in self.__classes:
             prior_prob = np.log(self.__priors[int(c)])
             post_prob = np.sum(np.log(self.__gaussianDistribution(int(c), x) + 1e-128))
@@ -52,9 +56,10 @@ class NaiveBayes(BaseEstimator):
         # Return class with highest posterior probability
         return self.__classes[np.argmax(post_probs)]
 
+
     # Gaussian Distribution Function
     def __gaussianDistribution(self, class_idx, x):
-        num = np.exp(-((x - self.__mean[class_idx]) ** 2) / (2 * self.__var[class_idx]))
+        num = np.exp(-(np.power((x - self.__mean[class_idx]), 2)) / (2 * self.__var[class_idx]))
         den = np.sqrt(2 * np.pi * self.__var[class_idx])
         return num / den
 
