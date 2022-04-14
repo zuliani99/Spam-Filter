@@ -2,6 +2,22 @@ import numpy as np
 import pandas as pd
 from collections import Counter
 from sklearn.base import BaseEstimator
+from sklearn.model_selection import cross_val_score
+from sklearn import neighbors
+from sklearn.metrics import accuracy_score
+from utlis import print_scores
+
+
+def callKnn(X, y, X_train, X_test, y_train, y_test):
+    print("IMPLEMENTED K-NEAREST NEIGHBOORS")
+    scores = cross_val_score(KNearesNeighbour(), X, y, cv = 10)
+    print_scores(scores)
+    
+    print("SKLEARN K-NEAREST NEIGHBOORS")
+    kNN = neighbors.KNeighborsClassifier(n_neighbors = 5)
+    kNN.fit(X_train, y_train)
+    y_pred = kNN.predict(X_test)
+    print(f"Accuracy Score of sklearn KNeighborsClassifier in Test Set: {accuracy_score(y_test, y_pred)} \n\n")
 
 
 class KNearesNeighbour(BaseEstimator):

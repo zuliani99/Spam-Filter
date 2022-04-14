@@ -1,5 +1,21 @@
 import numpy as np
 from sklearn.base import BaseEstimator
+from sklearn.model_selection import cross_val_score
+from utlis import print_scores
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+
+def callNb(X, y, X_train, X_test, y_train, y_test):
+    scores = cross_val_score(NaiveBayes(), X, y, cv = 10)
+    print("IMPLEMENTED NAIVE BAYES")
+    print_scores(scores)
+
+    print("SKLEARN GAUSSIAN NB")
+    gnb = GaussianNB()
+    y_pred = gnb.fit(X_train, y_train).predict(X_test)
+    print(f"Accuracy Score of sklearn GaussianNB in Test Set: {accuracy_score(y_test, y_pred)} \n\n")
+    
 
 class NaiveBayes(BaseEstimator):
     def fit(self, X, y):
