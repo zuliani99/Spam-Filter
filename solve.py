@@ -10,7 +10,7 @@ def start():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3)
 
     #SVM
-    Svm(X, y, X_train, X_test, y_train, y_test).result()
+    Svm(X, y).result()
     
     # NAIVE BAYES
     callNb(X, y, X_train, X_test, y_train, y_test)

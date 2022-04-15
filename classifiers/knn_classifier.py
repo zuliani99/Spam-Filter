@@ -2,21 +2,26 @@ import numpy as np
 from collections import Counter
 from sklearn.base import BaseEstimator
 from sklearn.model_selection import cross_val_score
-from sklearn import neighbors
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-from utlis import print_scores
+from utlis import print_confusion_matrix, print_scores
 
 
 def callKnn(X, y, X_train, X_test, y_train, y_test):
     print("IMPLEMENTED K-NEAREST NEIGHBOORS")
     scores = cross_val_score(KNearesNeighbour(), X, y, cv = 10)
-    print_scores(scores)
+    kNN_1 = KNearesNeighbour()
+    kNN_1.fit(X_train, y_train)
+    y_pred = kNN_1.predict(X_test)
+    print_scores(scores, None, accuracy_score(y_test, y_pred))
     
     print("SKLEARN K-NEAREST NEIGHBOORS")
-    kNN = neighbors.KNeighborsClassifier(n_neighbors = 5)
-    kNN.fit(X_train, y_train)
-    y_pred = kNN.predict(X_test)
-    print(f"Accuracy Score of sklearn KNeighborsClassifier in Test Set: {accuracy_score(y_test, y_pred)} \n\n")
+    kNN_2 = KNeighborsClassifier(n_neighbors = 5)
+    kNN_2.fit(X_train, y_train)
+    y_pred = kNN_2.predict(X_test)
+    scores = cross_val_score(KNeighborsClassifier(n_neighbors = 5), X, y, cv = 10)
+    print_scores(scores, None, accuracy_score(y_test, y_pred))
+    print_confusion_matrix(kNN_2, X_test, y_test)
 
 
 class KNearesNeighbour(BaseEstimator):
