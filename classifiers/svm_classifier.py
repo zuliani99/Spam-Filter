@@ -38,17 +38,18 @@ class Svm:
 
 	# Create the specified classifier
     def create_classifier(self, kernel):
-        return SVC(kernel = kernel, degree = 2, C = 1) if kernel == "poly" else SVC(kernel = kernel, gamma='scale', C = 1)
+        if kernel == "poly":
+            return SVC(kernel = kernel, degree = 2, C = 1)
+        else:
+            return SVC(kernel = kernel, gamma = 'scale', C = 1)
 
 
-    # Evaluate kernel and return mean accuracy, variance and standard variation
+    # Kernel Evaluation
     def evaluation_kernel(self, classifier, normalization_flag):
         if normalization_flag: 
-            #print("normalized")
-            return cross_val_score(classifier, self.norm_X, self.y, cv=CV, n_jobs=-1)
+            return cross_val_score(classifier, self.norm_X, self.y, cv = CV, n_jobs = -1)
         else: 
-            #print("NON normalized")
-            return cross_val_score(classifier, self.X, self.y, cv=CV, n_jobs=-1)
+            return cross_val_score(classifier, self.X, self.y, cv = CV, n_jobs = -1)
 
 
 	# Score of train test split

@@ -15,4 +15,13 @@ where α_k is the frequency of class k, and μ_ki, σ^2_ki are the means and var
 Provide the code, the models on the training set, and the respective performances in 10 way cross validation.
 Explain the differences between the three models.
 
-## Provided Solution
+## How to start the Application
+* You need to install the following packages: 
+```bash
+pip3 install numpy
+pip3 install pandas 
+pip3 install matplotlib
+pip3 install scikit-learn
+```
+* Enter in the main directory of the project
+* Type ```python3 solve.py ```
