@@ -8,17 +8,17 @@ from sklearn.metrics import accuracy_score
 
 def callNb(X, y, X_train, X_test, y_train, y_test):
     print("IMPLEMENTED NAIVE BAYES")
-    scores = cross_val_score(NaiveBayes(), X, y, cv = 10)
+    scores = cross_val_score(NaiveBayes(), X, y, cv = 10, n_jobs = -1)
     gnb_1 = NaiveBayes()
     gnb_1.fit(X_train, y_train)
     y_pred = gnb_1.predic(X_test)
     print_scores(scores, None, accuracy_score(y_test, y_pred))
 
     print("SKLEARN GAUSSIAN NB")
+    scores = cross_val_score(GaussianNB(), X, y, cv = 10, n_jobs = -1)
     gnb_2 = GaussianNB()
     gnb_2.fit(X_train, y_train)
     y_pred = gnb_2.predict(X_test)
-    scores = cross_val_score(GaussianNB(), X, y, cv = 10)
     print_scores(scores, None, accuracy_score(y_test, y_pred))
     
     

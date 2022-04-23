@@ -9,14 +9,14 @@ from utlis import print_confusion_matrix, print_scores
 
 def callKnn(X, y, X_train, X_test, y_train, y_test):
     print("IMPLEMENTED K-NEAREST NEIGHBOORS")
-    scores = cross_val_score(KNearesNeighbour(), X, y, cv = 10)
+    scores = cross_val_score(KNearesNeighbour(), X, y, cv = 10, n_jobs = -1)
     kNN_1 = KNearesNeighbour()
     kNN_1.fit(X_train, y_train)
     y_pred = kNN_1.predict(X_test)
     print_scores(scores, None, accuracy_score(y_test, y_pred))
     
     print("SKLEARN K-NEAREST NEIGHBOORS")
-    scores = cross_val_score(KNeighborsClassifier(n_neighbors = 5), X, y, cv = 10)
+    scores = cross_val_score(KNeighborsClassifier(n_neighbors = 5), X, y, cv = 10, n_jobs = -1)
     kNN_2 = KNeighborsClassifier(n_neighbors = 5)
     kNN_2.fit(X_train, y_train)
     y_pred = kNN_2.predict(X_test)
