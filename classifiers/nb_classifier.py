@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.model_selection import cross_val_score
 from utlis import print_scores
 from sklearn.naive_bayes import GaussianNB
@@ -23,7 +23,7 @@ def callNb(X, y, X_train, X_test, y_train, y_test):
     
     
 
-class NaiveBayes(BaseEstimator):
+class NaiveBayes(BaseEstimator, ClassifierMixin):
     def fit(self, X, y):
         n_samples, n_features = X.shape # Get the dataset shape
         self.__classes = np.unique(y) # Get the unique classes

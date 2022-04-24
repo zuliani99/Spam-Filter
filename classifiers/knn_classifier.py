@@ -1,6 +1,6 @@
 import numpy as np
 from collections import Counter
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.model_selection import cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
@@ -24,7 +24,7 @@ def callKnn(X, y, X_train, X_test, y_train, y_test):
     print_confusion_matrix(kNN_2, X_test, y_test)
 
 
-class KNearesNeighbour(BaseEstimator):
+class KNearesNeighbour(BaseEstimator, ClassifierMixin):
     def __init__(self):
         self.K = 5
         
